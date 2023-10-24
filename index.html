@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.js"></script>
+
+</head>
+
+<body>
+    <p>Kabupaten/Kota : <select name="" id="kabupaten">
+            <option value="" selected>Pilih Kabupaten</option>
+        </select></p>
+    <p>Kecamatan : <select name="" id="kecamatan">
+            <option value="" selected>Pilih Kecamatan</option>
+        </select></p>
+    <p>Kelurahan : <select name="" id="kelurahan">
+            <option value="" selected>Pilih Kelurahan</option>
+        </select></p>
+
+    <script>
+        $(document).ready(function () {
+            var url =
+                "https://script.google.com/macros/s/AKfycbx13jjl9bviirLtlIiD1XyB4VKEiYNtoyc7NZsrlM5y1WFyfXLnsUpDKOZxAxJksV-EuA/exec";
+            var arr = []
+            var dataFull = []
+            $.getJSON(url, function (data) {
+                for (var i = 1; i < data.length; i++) {
+                    dataFull.push(data[i])
+                    if (arr.includes(data[i][0])) {
+                        continue;
+                    } else {
+                        $("#kabupaten").append('<option value="' + data[i][0] + '">' + data[i][0] +
+                            '</option>')
+                        arr.push(data[i][0])
+                    }
+                }
+            })
+            $('#kabupaten').on('change', function () {
+                var kabupaten = $("#kabupaten").val()
+                $("#kecamatan").html('<option value="" selected>Pilih Kecamatan</option>')
+                if (kabupaten == "") {
+                    $("#kecamatan").html('<option value="" selected>Pilih Kecamatan</option>')
+                    $("#kelurahan").html('<option value="" selected>Pilih Kelurahan</option>')
+                } else {
+                    //var url =
+                    "https://script.google.com/macros/s/AKfycbx13jjl9bviirLtlIiD1XyB4VKEiYNtoyc7NZsrlM5y1WFyfXLnsUpDKOZxAxJksV-EuA/exec";
+                    var arr = []
+                    //$.getJSON(url, function (dataFull) {
+                    for (var i = 1; i < dataFull.length; i++) {
+                        if (dataFull[i][0] == kabupaten) {
+
+                            if (arr.includes(dataFull[i][1])) {
+                                continue;
+                            } else {
+                                $("#kecamatan").append('<option value="' + dataFull[i][1] +
+                                    '">' +
+                                    dataFull[
+                                        i][1] + '</option>')
+                                arr.push(dataFull[i][1])
+                            }
+                        }
+                    }
+                    //})
+                }
+
+            });
+            $('#kecamatan').on('change', function () {
+                var kabupaten = $("#kabupaten").val()
+                var kecamatan = $("#kecamatan").val()
+                $("#kelurahan").html('<option value="" selected>Pilih Kelurahan</option>')
+                if (kabupaten == "") {
+                    $("#kecamatan").html('<option value="" selected>Pilih Kecamatan</option>')
+                    $("#kelurahan").html('<option value="" selected>Pilih Kelurahan</option>')
+                } else {
+                    if (kecamatan == "") {
+                        $("#kelurahan").html('<option value="" selected>Pilih Kelurahan</option>')
+                    } else {
+                        // var url =
+                        "https://script.google.com/macros/s/AKfycbx13jjl9bviirLtlIiD1XyB4VKEiYNtoyc7NZsrlM5y1WFyfXLnsUpDKOZxAxJksV-EuA/exec";
+                        var arr = []
+                        //$.getJSON(url, function (dataFull) {
+                        for (var i = 1; i < dataFull.length; i++) {
+                            if (dataFull[i][0] == kabupaten && dataFull[i][1] == kecamatan) {
+                                if (arr.includes(dataFull[i][2])) {
+                                    continue;
+                                } else {
+                                    $("#kelurahan").append('<option value="' + dataFull[i][2] +
+                                        '">' +
+                                        dataFull[
+                                            i][2] + '</option>')
+                                    arr.push(dataFull[i][2])
+                                }
+                            }
+                        }
+                        //})
+                    }
+                }
+
+            });
+        })
+    </script>
+
+</body>
+
+</html>
